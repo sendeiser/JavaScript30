@@ -58,7 +58,22 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  window.addEventListener("keydown", function(e){
+    const audio= document.querySelector(`audio[data-key="${e.keyCode}"`); // controlo que la tecla que se presiono es una data-key en los tags
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`); //selecciona el tag con la clase .key y ademas la tecla con data-key igual a ese tag
+    if(!audio) return; // si no se presiono una tecla reservada para los data-key termina la funcion
+    audio.currentTime = 0; // vuelve el sonido a 00:00
+    audio.play(); //play funcion que reproduce los tags de audio
+    key.classList.add("playing");
+  });
 
+  function removeTransition(e){
+   if (e.propertyName !== "transform") return; //termina si no es una transformacion 
+    this.classList.remove('playing'); //remueve la clase playing
+  }
+
+  const keys = document.querySelectorAll('.key'); //selecciono todos elementos con la clase key
+  keys.forEach(key => key.addEventListener('transitionend',removeTransition) ) //recorre todos los elementos divs agregandole una funcion al presionar cada uno de ellos que es remover la clase playing
 </script>
 
 
